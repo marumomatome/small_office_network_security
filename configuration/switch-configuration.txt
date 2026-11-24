@@ -1,0 +1,35 @@
+! Small Office Network - Switch Configuration
+! Device: Office-Switch
+! Platform: Cisco Catalyst 2960
+
+enable
+configure terminal
+
+hostname Office-Switch
+
+interface vlan 1
+ ip address 192.168.10.2 255.255.255.0
+ no shutdown
+exit
+
+ip default-gateway 192.168.10.1
+
+interface range fastEthernet 0/1-4
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+exit
+
+interface range fastEthernet 0/5-24
+ shutdown
+exit
+
+end
+
+copy running-config startup-config
+
+show ip interface brief
+show port-security
+show mac address-table
