@@ -1,0 +1,37 @@
+> Small Office Network - Router Configuration
+> Device: OFFICE-ROUTER
+> Platform: Cisco 2911
+
+enable
+configure terminal
+
+hostname OFFICE-ROUTER
+
+interface gigabitEthernet 0/0
+ ip address 192.168.10.1 255.255.255.0
+ no shutdown
+exit
+
+> Secure administrator authentication
+enable secret **********
+service password-encryption
+
+> SSH configuration
+ip domain-name myoffice.local
+username netadmin secret *******
+crypto key generate rsa
+> Use 1024 bits or higher where supported
+ip ssh version 2
+
+line vty 0 4
+ login local
+ transport input ssh
+exit
+
+end
+
+copy running-config startup-config
+
+! Verification
+show ip interface brief
+show running-config
